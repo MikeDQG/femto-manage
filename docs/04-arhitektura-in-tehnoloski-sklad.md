@@ -1,11 +1,11 @@
-﻿# 4. Arhitektura in tehnološki sklad
+# 4. Arhitektura in tehnološki sklad
 
 ## Deli sistema in komunikacija
 
 - **Frontend:** odzivna spletna aplikacija za vnos, potrjevanje, dnevni pregled in deljenje.
 - **Backend:** REST API; preverja pravice, validira aktivnosti, izračuna povzetke in pripravlja predloge.
 - **Baza:** PostgreSQL za račune, kraje, aktivnosti, kategorije in deljene povzetke.
-- **AI API:** backend pošlje besedilo in nujen kontekst; odgovor pretvori v preverjen osnutek.
+- **AI API:** backend prek OpenAI API-ja pripravi osnutek besedilnega povzetka iz potrjenih aktivnosti izbranega dne; uporabnik ga pregleda, popravi, sprejme ali zavrne. Ločeno je predvidena tudi pretvorba besedilnega vnosa v osnutek aktivnosti.
 - Frontend in backend komunicirata prek HTTP/JSON, ob objavi prek HTTPS; backend dostopa do baze prek JPA.
 - Lokacijo pridobi brskalnik z dovoljenjem uporabnika med uporabo aplikacije.
 
@@ -28,7 +28,8 @@ flowchart LR
 | Avtentikacija | Spring Security, strežniška seja, BCrypt za gesla |
 | Lokalni razvoj | Docker Compose, Maven, npm, Git |
 | Lokacija | Brskalniški Geolocation API |
-| Jezikovni vnos | Zunanji AI API prek backenda; ponudnik se izbere ob implementaciji |
+| Dnevni besedilni povzetki | OpenAI API prek backenda; uporabnikov pregled osnutka |
+| Jezikovni vnos aktivnosti | Zunanji AI API prek backenda; ločena funkcionalnost od dnevnih povzetkov |
 
 ## Avtentikacija in pravice
 
@@ -50,11 +51,13 @@ flowchart LR
 
 ## Arhitekturne odločitve
 
+Podrobne utemeljitve, alternative in posledice so zapisane v [kazalu ADR](adr/README.md). Spremembe odločitev dobijo nov zaporedni ADR s povezavo na odločitev, ki jo nadomeščajo ali dopolnjujejo; obstoječih zapisov ne spreminjamo.
+
 - **En backend:** manj infrastrukture in preprostejši razvoj za posameznika.
 - **Relacijska baza:** jasne povezave, lastništvo in omejitve veljavnosti podatkov.
 - **React PWA:** en vmesnik za telefon in računalnik brez ločene mobilne aplikacije zaradi kratkega/hitrega razvoja.
 - **Strežniška seja:** preprosta prijava; frontend in API sta predvidena pod istim izvorom.
 - **Pravila za predloge:** uporaba pogostosti potrjenih zapisov brez lastnega ML-modela zaradi kratkega/hitrega razvoja.
-- **AI le za osnutke:** backend preveri odgovor, uporabnik potrdi zapis; ključ ostane na strežniku.
+- **OpenAI za osnutke dnevnih povzetkov:** backend pošlje strukturirane podatke potrjenih aktivnosti izbranega dne in pridobi osnutek besedila, ki ga uporabnik pregleda, popravi, sprejme ali zavrne. AI ne spreminja aktivnosti in nima neposrednega dostopa do baze; API-ključ ostane na strežniku. Deljenje besedila zahteva ločeno izrecno potrditev. Podrobnosti določa [ADR 006](adr/006-ADR-openai-dnevni-povzetki.md).
 - **Posnetki povzetkov:** uporabnik nadzoruje vsebino, ki jo mentor vidi.
 - **Docker Compose:** ponovljiv lokalni zagon in osnova za poznejšo objavo (prenosljivost-deploy).
