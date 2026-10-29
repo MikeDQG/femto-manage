@@ -58,6 +58,6 @@ Podrobne utemeljitve, alternative in posledice so zapisane v [kazalu ADR](adr/RE
 - **React PWA:** en vmesnik za telefon in računalnik brez ločene mobilne aplikacije zaradi kratkega/hitrega razvoja.
 - **Strežniška seja:** preprosta prijava; frontend in API sta predvidena pod istim izvorom.
 - **Pravila za predloge:** uporaba pogostosti potrjenih zapisov brez lastnega ML-modela zaradi kratkega/hitrega razvoja.
-- **OpenAI za osnutke dnevnih povzetkov:** backend pošlje strukturirane podatke potrjenih aktivnosti izbranega dne in pridobi osnutek besedila, ki ga uporabnik pregleda, popravi, sprejme ali zavrne. AI ne spreminja aktivnosti in nima neposrednega dostopa do baze; API-ključ ostane na strežniku. Deljenje besedila zahteva ločeno izrecno potrditev. Podrobnosti določa [ADR 006](adr/006-ADR-openai-dnevni-povzetki.md).
+- **OpenAI za osnutke dnevnih povzetkov:** uporaba LLM za kreacijo besedilnih osnutkov dneva, ki jih uporabnik potrdi. Podrobnosti določa [ADR 006](adr/006-ADR-openai-dnevni-povzetki.md).
 - **Posnetki povzetkov:** uporabnik nadzoruje vsebino, ki jo mentor vidi.
 - **Docker Compose:** ponovljiv lokalni zagon in osnova za poznejšo objavo (prenosljivost-deploy).
