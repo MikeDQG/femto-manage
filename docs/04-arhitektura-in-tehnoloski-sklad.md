@@ -41,14 +41,11 @@ flowchart LR
 
 ## Predvideni lokalni zagon
 
-- Predpogoji: Docker z Docker Compose; za besedilni vnos tudi dostop do AI API-ja.
-- `.env.example` bo opisoval nastavitve baze, začetnega skrbnika in `AI_API_KEY`; lokalna `.env` se ne shrani v Git.
-- `docker compose up --build` zažene frontend, backend in bazo.
-- Frontend: `http://localhost:5173`; Vite posreduje `/api` na backend na vratih 8080.
-- Baza uporablja trajni Docker volume; Flyway ob zagonu pripravi shemo.
-- Brez AI ključa ostaneta ročni vnos in kontekstni predlog; besedilni vnos je onemogočen.
-- To je načrt zagona; konfiguracija in aplikacija še nista implementirani.
-
+- Predpogoji: Docker z Docker Compose in projekt Supabase z dosegljivo PostgreSQL bazo.
+- Korenski `.env` vsebuje Supabase poverilnice; kopiraj ga iz `.env.example` in nikoli ne committaj.
+- `docker compose up --build` zažene frontend in backend v skupnem omrežju.
+- Frontend je na `http://localhost:5173`; Vite posreduje `/api` backendu na vratih 8080.
+- Shemo baze ob zagonu pripravi Flyway.
 ## Arhitekturne odločitve
 
 Podrobne utemeljitve, alternative in posledice so zapisane v [kazalu ADR](adr/README.md). Spremembe odločitev dobijo nov zaporedni ADR s povezavo na odločitev, ki jo nadomeščajo ali dopolnjujejo; obstoječih zapisov ne spreminjamo.
