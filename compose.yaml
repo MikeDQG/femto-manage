@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: ./backend-fm
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:?Set SPRING_DATASOURCE_URL in the root .env}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:?Set SPRING_DATASOURCE_USERNAME in the root .env}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:?Set SPRING_DATASOURCE_PASSWORD in the root .env}
+      SPRING_DATASOURCE_SSLMODE: ${SPRING_DATASOURCE_SSLMODE:-require}
+    ports:
+      - "8080:8080"
+    networks:
+      - femtomanage
+
+  frontend:
+    build:
+      context: ./frontend-fm
+    environment:
+      BACKEND_URL: http://backend:8080
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - femtomanage
+
+networks:
+  femtomanage:
+    driver: bridge
