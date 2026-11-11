@@ -27,3 +27,5 @@ erDiagram
     DAILY_SUMMARY ||--o{ ACCESS_GRANT : shares
     USER ||--o{ ACCESS_GRANT : receives_as_mentor
 ```
+
+![alt text](db_eer.png)
