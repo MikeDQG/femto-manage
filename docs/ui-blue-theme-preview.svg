@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 780" role="img" aria-label="Primerjava svetle in temne modre teme za domači zaslon Femto">
+  <style>
+    text{font-family:Arial,sans-serif}
+    .label{font-size:23px;font-weight:700;fill:#172739}
+    .sub{font-size:13px;fill:#607084}
+    .small{font-size:11px}
+    .body{font-size:14px}
+    .title{font-size:25px;font-weight:700}
+    .cardTitle{font-size:17px;font-weight:700}
+    .nav{font-size:11px}
+  </style>
+  <rect width="920" height="780" fill="#eef2f6"/>
+  <text x="55" y="44" class="label">Svetla modra</text>
+  <text x="485" y="44" class="label">Temna modra</text>
+  <text x="55" y="66" class="sub">Mirna, zračna osnova</text>
+  <text x="485" y="66" class="sub">Mirna, globlja osnova</text>
+
+  <g transform="translate(45 90)">
+    <rect width="390" height="640" rx="24" fill="#f5f8fc" stroke="#cfdae8"/>
+    <rect x="0" y="0" width="390" height="59" rx="24" fill="#ffffff"/>
+    <rect x="0" y="35" width="390" height="24" fill="#ffffff"/>
+    <text x="24" y="37" font-size="19" font-weight="700" fill="#235b9d">Femto</text>
+    <text x="24" y="105" class="title" fill="#20364f">Dobro jutro, Maja<tspan fill="#2578d4">.</tspan></text>
+    <text x="24" y="143" class="small" fill="#6181a6">SREDA · 11. NOVEMBER</text>
+    <text x="288" y="143" class="small" fill="#2876ca">Poglej dan →</text>
+    <rect x="18" y="168" width="354" height="272" rx="14" fill="#ffffff" stroke="#dce6f2"/>
+    <text x="35" y="198" class="small" font-weight="700" fill="#5b84b4">TVOJ DANAŠNJI RITEM</text>
+    <text x="35" y="224" class="cardTitle" fill="#20364f">Ravnovesje dneva</text>
+    <text x="287" y="224" class="small" fill="#2876ca">Vsi cilji →</text>
+    <g transform="translate(188 328)">
+      <g fill="none" stroke="#d9e5f2" stroke-width="1.5">
+        <polygon points="0,-75 65,-38 65,38 0,75 -65,38 -65,-38"/>
+        <polygon points="0,-50 43,-25 43,25 0,50 -43,25 -43,-25"/>
+        <polygon points="0,-25 21,-13 21,13 0,25 -21,13 -21,-13"/>
+        <path d="M0,-75V75 M-65,-38L65,38 M65,-38L-65,38"/>
+      </g>
+      <polygon points="0,-59 46,-27 55,32 0,44 -35,20 -47,-27" fill="#42a5f566" stroke="#1684df" stroke-width="2.5"/>
+      <g fill="#1684df"><circle cy="-59" r="3"/><circle cx="46" cy="-27" r="3"/><circle cx="55" cy="32" r="3"/><circle cy="44" r="3"/><circle cx="-35" cy="20" r="3"/><circle cx="-47" cy="-27" r="3"/></g>
+    </g>
+    <text x="35" y="417" class="small" fill="#607d9b">● Današnji napredek</text>
+    <text x="298" y="417" class="small" fill="#2876ca">63 %</text>
+    <rect x="18" y="456" width="354" height="113" rx="14" fill="#ffffff" stroke="#dce6f2"/>
+    <text x="35" y="485" class="cardTitle" fill="#20364f">Današnje aktivnosti</text>
+    <text x="35" y="510" class="body" fill="#56718e">Učenje</text>
+    <text x="298" y="510" class="small" fill="#56718e">30 / 60 min</text>
+    <rect x="35" y="523" width="320" height="9" rx="5" fill="#e3edf8"/>
+    <rect x="35" y="523" width="160" height="9" rx="5" fill="#2488e4"/>
+    <text x="35" y="553" class="small" fill="#607d9b">Mirna podlaga · živahen napredek</text>
+    <rect x="0" y="584" width="390" height="56" rx="0" fill="#ffffff"/>
+    <path d="M0 584H390" stroke="#dce6f2"/>
+    <g fill="none" stroke="#587695" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M43 607a9 9 0 0 0-18 0c0 7 9 15 9 15s9-8 9-15Z M34 607h.1"/>
+      <rect x="97" y="599" width="20" height="21" rx="2"/><path d="M97 605h20 M102 596v6 M112 596v6"/>
+      <path d="m164 608 12-10 12 10v13h-24Z"/>
+      <path d="M251 620v-17 M259 620v-12 M267 620v-22"/>
+      <circle cx="345" cy="609" r="10"/><path d="M345 605v8 M341 609h8"/>
+    </g>
+    <text x="23" y="635" class="nav" fill="#587695">Lokacije</text>
+    <text x="98" y="635" class="nav" fill="#587695">Dan</text>
+    <text x="163" y="635" class="nav" fill="#2578d4">Domov</text>
+    <text x="246" y="635" class="nav" fill="#587695">Cilji</text>
+    <text x="326" y="635" class="nav" fill="#587695">Profil</text>
+  </g>
+
+  <g transform="translate(475 90)">
+    <rect width="390" height="640" rx="24" fill="#101b2d" stroke="#2b4664"/>
+    <rect x="0" y="0" width="390" height="59" rx="24" fill="#16263b"/>
+    <rect x="0" y="35" width="390" height="24" fill="#16263b"/>
+    <text x="24" y="37" font-size="19" font-weight="700" fill="#80bcff">Femto</text>
+    <text x="24" y="105" class="title" fill="#eef6ff">Dobro jutro, Maja<tspan fill="#5dadff">.</tspan></text>
+    <text x="24" y="143" class="small" fill="#89a6c6">SREDA · 11. NOVEMBER</text>
+    <text x="288" y="143" class="small" fill="#73b9ff">Poglej dan →</text>
+    <rect x="18" y="168" width="354" height="272" rx="14" fill="#192d45" stroke="#31516f"/>
+    <text x="35" y="198" class="small" font-weight="700" fill="#8dc3ff">TVOJ DANAŠNJI RITEM</text>
+    <text x="35" y="224" class="cardTitle" fill="#eef6ff">Ravnovesje dneva</text>
+    <text x="287" y="224" class="small" fill="#73b9ff">Vsi cilji →</text>
+    <g transform="translate(188 328)">
+      <g fill="none" stroke="#395772" stroke-width="1.5">
+        <polygon points="0,-75 65,-38 65,38 0,75 -65,38 -65,-38"/>
+        <polygon points="0,-50 43,-25 43,25 0,50 -43,25 -43,-25"/>
+        <polygon points="0,-25 21,-13 21,13 0,25 -21,13 -21,-13"/>
+        <path d="M0,-75V75 M-65,-38L65,38 M65,-38L-65,38"/>
+      </g>
+      <polygon points="0,-59 46,-27 55,32 0,44 -35,20 -47,-27" fill="#39a4fa66" stroke="#62bcff" stroke-width="2.5"/>
+      <g fill="#62bcff"><circle cy="-59" r="3"/><circle cx="46" cy="-27" r="3"/><circle cx="55" cy="32" r="3"/><circle cy="44" r="3"/><circle cx="-35" cy="20" r="3"/><circle cx="-47" cy="-27" r="3"/></g>
+    </g>
+    <text x="35" y="417" class="small" fill="#9ab4ce">● Današnji napredek</text>
+    <text x="298" y="417" class="small" fill="#79c0ff">63 %</text>
+    <rect x="18" y="456" width="354" height="113" rx="14" fill="#192d45" stroke="#31516f"/>
+    <text x="35" y="485" class="cardTitle" fill="#eef6ff">Današnje aktivnosti</text>
+    <text x="35" y="510" class="body" fill="#b1c6de">Učenje</text>
+    <text x="298" y="510" class="small" fill="#b1c6de">30 / 60 min</text>
+    <rect x="35" y="523" width="320" height="9" rx="5" fill="#304763"/>
+    <rect x="35" y="523" width="160" height="9" rx="5" fill="#5fbaff"/>
+    <text x="35" y="553" class="small" fill="#9ab4ce">Globoka podlaga · živahen napredek</text>
+    <rect x="0" y="584" width="390" height="56" fill="#16263b"/>
+    <path d="M0 584H390" stroke="#31516f"/>
+    <g fill="none" stroke="#91abc7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M43 607a9 9 0 0 0-18 0c0 7 9 15 9 15s9-8 9-15Z M34 607h.1"/>
+      <rect x="97" y="599" width="20" height="21" rx="2"/><path d="M97 605h20 M102 596v6 M112 596v6"/>
+      <path d="m164 608 12-10 12 10v13h-24Z"/>
+      <path d="M251 620v-17 M259 620v-12 M267 620v-22"/>
+      <circle cx="345" cy="609" r="10"/><path d="M345 605v8 M341 609h8"/>
+    </g>
+    <text x="23" y="635" class="nav" fill="#91abc7">Lokacije</text>
+    <text x="98" y="635" class="nav" fill="#91abc7">Dan</text>
+    <text x="163" y="635" class="nav" fill="#6cb8ff">Domov</text>
+    <text x="246" y="635" class="nav" fill="#91abc7">Cilji</text>
+    <text x="326" y="635" class="nav" fill="#91abc7">Profil</text>
+  </g>
+</svg>
