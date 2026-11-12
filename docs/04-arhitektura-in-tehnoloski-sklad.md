@@ -20,6 +20,8 @@ flowchart LR
 
 ## Tehnološki sklad
 
+Java razredi backenda so urejeni po odgovornostih (`api`, `engine`, `persistence`, `config`, `bootstrap`), znotraj njih pa po entitetah oziroma funkcionalnih sklopih. Podrobna razporeditev in pravila za nove razrede so v [backend README](../backend-fm/README.md).
+
 | Del | Predvidena tehnologija / orodje |
 |---|---|
 | Frontend | React, Vite, PWA z osnovnim predpomnjenjem vmesnika |
