@@ -43,6 +43,9 @@
 
 ## Backend: odgovornosti in preverjanje
 
+- Upoštevaj strukturo v `backend-fm/README.md`: `api/<sklop>` za kontrolerje in DTO-je, `engine/<sklop>` za storitve, `persistence/<entiteta>` za entitete in repozitorije, `config` za konfiguracijo in `bootstrap` za zagonska opravila. Skupne API napake sodijo v `api/error`.
+- Pri premikih posodobi deklaracije paketov, importe in teste; testne pakete prilagodi preverjani komponenti. Glavni aplikacijski razred naj ostane v korenskem paketu zaradi Springovega pregleda komponent.
+
 - Backend je v `backend-fm/` in uporablja Java 21, Spring Boot ter Maven.
 - Kodo razdeli po smiselnih funkcionalnih sklopih in odgovornostih. HTTP obravnavo, poslovno logiko in dostop do podatkov loči tam, kjer te odgovornosti obstajajo.
 - Ob spremembi podatkov dosledno posodobi povezane modele, validacijo, preslikave, API in po potrebi shemo baze po obstoječem načinu migracij.
