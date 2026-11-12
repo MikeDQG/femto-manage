@@ -27,4 +27,6 @@ Kontekstni predlog aktivnosti je opisan v [navodilih za US-04](docs/14-kontekstn
 
 Besedilni vnos in strežniška konfiguracija AI sta opisana v [navodilih za US-05](docs/15-besedilni-vnos.md).
 
+Deljenje posnetkov in preklic dostopa sta opisana v [navodilih za US-07](docs/16-deljenje-povzetkov.md).
+
 Registracija in API sta opisana v [navodilih za avtentikacijo](docs/08-avtentikacija.md).

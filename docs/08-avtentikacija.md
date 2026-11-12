@@ -14,7 +14,7 @@ Implementacija opravila [#13](https://github.com/MikeDQG/femto-manage/issues/13)
 
 - `POST /api/auth/login` sprejme `email` in `password`; uspeh vrne javne podatke uporabnika in vzpostavi Spring Security sejo. Napačna e-pošta in napačno geslo vrneta enako napako 401.
 - Prijava zamenja identifikator seje in razveljavi stari CSRF žeton. Pred naslednjim POST odjemalec pridobi nov žeton prek `/csrf`.
-- `GET /api/auth/me` vrne samo račun iz trenutne seje; odjemalec ne izbira uporabnika z ID-jem. Vse druge poti zahtevajo prijavo. Domenski API-ji za dnevnik še niso implementirani; prikazani dnevnik ostaja prototip z vzorčnimi podatki.
+- `GET /api/auth/me` vrne samo račun iz trenutne seje; odjemalec ne izbira uporabnika z ID-jem. Vse druge poti zahtevajo prijavo. Domenski API-ji za aktivnosti, kraje, refleksije in deljenje dodatno preverjajo lastništvo oziroma dovoljenje.
 - `POST /api/auth/logout` s CSRF žetonom razveljavi sejo, odstrani piškotek `JSESSIONID` in vrne 204. Menjava računa ponastavi lokalno stanje prototipa.
 - Ob odprtju frontend preveri `/me`. Seja poteče po 30 minutah neaktivnosti; piškotek je HttpOnly, SameSite=Lax, ob HTTPS nastavi `SESSION_COOKIE_SECURE=true`. Gesel in žetonov ne shranjujemo v localStorage.
 - Seje so v pomnilniku backenda; trajna prijava čez ponovni zagon in trajni piškotek sta ločeno opravilo [#14](https://github.com/MikeDQG/femto-manage/issues/14).
@@ -43,6 +43,6 @@ Za ponovljiv HTTP preizkus uporabi `npm run test:e2e:isolated -- mentor-assignme
 
 Backend: `cd backend-fm` in `./mvnw test` (Windows: `.\mvnw.cmd test`) z Javo 21.
 Frontend: `npm run build` in `npm run lint` v `frontend-fm/`.
-Po `docker compose up --build` zaženi `npm run test:e2e` v `frontend-fm/`.
+Po `docker compose up --build` lahko proti razvojni bazi zaženeš izbrane teste z `npm run test:e2e -- ime.spec.ts` v `frontend-fm/`. Celotna regresija z dodeljevanjem mentorjev uporablja `npm run test:e2e:isolated -- --workers=4`, ki pripravi lastno H2 bazo in testnega skrbnika.
 Playwright uporablja nameščen Microsoft Edge in preverja namizno ter mobilno širino.
 Brskalniški testi ustvarijo račune z naključnimi naslovi `@example.com`; uporabljaj razvojno bazo.

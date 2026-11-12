@@ -10,4 +10,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> lockById(@org.springframework.data.repository.query.Param("id") UUID id);
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
+    java.util.List<User> findByRoleOrderByEmail(User.Role role);
 }

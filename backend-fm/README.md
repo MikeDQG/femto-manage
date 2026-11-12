@@ -8,10 +8,10 @@ Koren je `si.um.feri.riris.backendfm`. `BackendFmApplication` ostaja v korenu, d
 
 | Paket | Odgovornost |
 |---|---|
-| `api/auth`, `api/activity`, `api/place` | HTTP kontrolerji, vhodni zahtevki in odgovori ustreznega sklopa |
+| `api/auth`, `api/activity`, `api/place`, `api/reflection`, `api/summary`, `api/admin` | HTTP kontrolerji, vhodni zahtevki in odgovori ustreznega sklopa |
 | `api/error` | Skupna oblika napak in obravnava izjem API-ja |
-| `engine/auth`, `engine/place` | Storitve za poslovne operacije |
-| `persistence/user`, `persistence/activity`, `persistence/place`, `persistence/category` | JPA entitete in pripadajoči repozitoriji |
+| `engine/auth`, `engine/place`, `engine/activity`, `engine/reflection`, `engine/summary`, `engine/admin` | Storitve za poslovne operacije |
+| `persistence/user`, `persistence/activity`, `persistence/place`, `persistence/category`, `persistence/reflection`, `persistence/summary` | JPA entitete in pripadajoči repozitoriji |
 | `config` | Spring konfiguracija in varnost |
 | `bootstrap` | Opravila ob zagonu, na primer začetni skrbnik |
 
@@ -22,3 +22,5 @@ Testi v `src/test/java` sledijo paketom preverjanih vstopnih točk oziroma kompo
 ## Preverjanje
 
 Iz te mape zaženi `./mvnw test` oziroma v PowerShellu `.\mvnw.cmd test`. Če wrapper ni dosegljiv, uporabi nameščeni Maven: `mvn test`. Ob premikanju paketov uporabi čisto izhodno mapo, da stari `.class` ne ostanejo v Springovem pregledu komponent.
+
+`support/BrowserTestApplication` v testnih virih zaganja izolirano H2 aplikacijo za celotne brskalniške teste. Uporablja se samo prek `npm run test:e2e:isolated` v frontendu in ni v produkcijskem JAR. Glej [preverjanje deljenja](../docs/16-deljenje-povzetkov.md).

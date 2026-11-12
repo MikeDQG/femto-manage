@@ -1,0 +1,2 @@
+.panel { display: grid; gap: 18px; margin-bottom: 18px; max-width: 650px; }
+.panel article strong { overflow-wrap: anywhere; }
