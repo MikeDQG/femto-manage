@@ -1,0 +1,5 @@
+.form { width: 100%; min-width: 0; }
+.form h1 { overflow-wrap: anywhere; }
+.form small { text-align: left; font-size: 12px; }
+.form .error { color: #b32d3a; text-align: left; overflow-wrap: anywhere; }
+.form button:disabled { cursor: wait; opacity: .65; }

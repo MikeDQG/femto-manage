@@ -16,3 +16,5 @@ Compose zažene frontend in backend v skupnem omrežju. Frontend posreduje klice
 V korenskem `.env` obvezno nastavi `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD` in `SPRING_DATASOURCE_SSLMODE=require`. Supabase podatkovna baza mora biti dosegljiva iz Docker okolja.
 
 Več o projektu je v mapi [`docs/`](docs/).
+
+Registracija in API sta opisana v [navodilih za avtentikacijo](docs/08-avtentikacija.md).
