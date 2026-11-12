@@ -36,4 +36,7 @@ public class User {
     public String getPasswordHash() { return passwordHash; }
     public Role getRole() { return role; }
     public Instant getCreatedAt() { return createdAt; }
+    public void assignMentor() {
+        if (role == Role.USER) role = Role.MENTOR;
+    }
 }
