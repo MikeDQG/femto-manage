@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getDailyJournal, type DailyJournal, type DayActivity } from '../../api/activities'
 import styles from './CalendarScreen.module.css'
+import DailyReflectionForm from './reflection/DailyReflectionForm'
 
 type Props = { date: string; onDateChange: (date: string) => void; onAddActivity: () => void; refreshKey: number }
 
@@ -73,6 +74,7 @@ export default function CalendarScreen({ date, onDateChange, onAddActivity, refr
       <p>Potrjene aktivnosti izbranega dne.</p></div>
       <button className="primary" onClick={onAddActivity}>＋ Dodaj aktivnost</button></div>
     <label className={styles.datePicker}>Izberi dan <input type="date" value={date} onChange={event => { if (event.target.value) { setLoading(true); onDateChange(event.target.value) } }} /></label>
+    <DailyReflectionForm key={date} date={date} />
     {loading && <p role="status">Nalagam dnevni pregled …</p>}
     {error && <div className="panel" role="alert">{error}<button className="outline" onClick={() => { setLoading(true); setJournal(null); setRetry(current => current + 1) }}>Poskusi znova</button></div>}
     {!loading && journal && <div className={styles.layout}>
