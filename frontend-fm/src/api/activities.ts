@@ -3,6 +3,8 @@ export type PlaceOption = { id: string; name: string; latitude: number; longitud
 export type JournalActivity = { id: string; title: string; description?: string; startAt: string; endAt: string; categoryId: string; placeId?: string }
 export type Overlap = { title: string; startAt: string; endAt: string }
 export type ActivityInput = { title: string; startAt: string | null; endAt: string | null; categoryId: string | null; placeId: string | null; description: string; confirmOverlap: boolean }
+export type PlaceCandidate = { id: string; name: string; distanceM: number; radiusM: number }
+export type PlaceRecognition = { recognized: boolean; candidates: PlaceCandidate[] }
 
 export class JournalError extends Error {
   status: number
@@ -41,5 +43,7 @@ export async function request<T>(path: string, body?: unknown, method = body ===
 
 export const getCategories = () => request<CategoryOption[]>('categories')
 export const getPlaces = () => request<PlaceOption[]>('places')
+export const recognizePlace = (latitude: number, longitude: number) =>
+  request<PlaceRecognition>(`places/recognition?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}`)
 export const getActivities = (date: string) => request<JournalActivity[]>(`activities?date=${date}&zone=${encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone)}`)
 export const createActivity = (activity: ActivityInput) => request<JournalActivity>('activities', activity)

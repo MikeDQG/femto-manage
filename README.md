@@ -19,4 +19,6 @@ Več o projektu je v mapi [`docs/`](docs/).
 
 Izrecni razvojni ukaz za testne kraje in aktivnosti je opisan v [navodilih za razvojne podatke](docs/11-razvojni-testni-podatki.md).
 
+Prepoznavanje znanega kraja je opisano v [navodilih za US-03](docs/12-prepoznavanje-kraja.md).
+
 Registracija in API sta opisana v [navodilih za avtentikacijo](docs/08-avtentikacija.md).
