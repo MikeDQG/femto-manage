@@ -64,7 +64,11 @@ class SummarySharingTests {
             mvc.perform(get("/api/summaries/"+id).with(user(unauthorized.getEmail()).roles(unauthorized.getRole().name()))).andExpect(status().isNotFound());
             mvc.perform(delete("/api/summaries/shares/"+grantId).with(user(unauthorized.getEmail())).with(csrf())).andExpect(status().isNotFound());
         }
-        activity.endAt=activity.endAt.plusSeconds(3600); activities.saveAndFlush(activity);
+        mvc.perform(put("/api/activities/"+activity.id).with(user(owner.getEmail())).with(csrf()).contentType("application/json")
+                .content("""
+                        {"title":"Popravljena aktivnost","startAt":"2026-11-12T08:00:00Z","endAt":"2026-11-12T10:00:00Z",
+                         "categoryId":"00000000-0000-0000-0000-000000000001","description":"Nov opis"}
+                        """)).andExpect(status().isOk());
         mvc.perform(put("/api/journal/reflection?date=2026-11-12").with(user(owner.getEmail())).with(csrf()).contentType("application/json").content("{\"note\":\"Sprememba\"}")).andExpect(status().isOk());
         assertThat(mvc.perform(get("/api/summaries/"+id).with(user(mentor.getEmail()))).andReturn().getResponse().getContentAsString()).isEqualTo(snapshot);
         String newer=preview(owner,mentor,session);

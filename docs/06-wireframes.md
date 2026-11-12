@@ -35,7 +35,7 @@
 - Aktivnosti oziroma dogodki so prikazani kot bloki na dnevni časovnici, podobno kot v Google Koledarju.
 - V ozadju je fiksna časovna mreža z označenimi urami ter črtkanimi ali zabrisanimi črtami.
 - Vsak blok prikazuje ime aktivnosti, lokacijo in kategorijo.
-- Klik na aktivnost odpre obrazec za ogled in urejanje dogodka (zaslon 0-4).
+- Klik ali dotik aktivnosti odpre podrobnosti z nazivom, celotnim intervalom, kategorijo, krajem in opisom. Akcija **Uredi** odpre predizpolnjen obrazec (zaslon 04); **Zapri podrobnosti** oziroma Escape vrne na časovnico. Implementacija: [#66](https://github.com/MikeDQG/femto-manage/issues/66).
 - Ločenega gumba za urejanje na bloku ni.
 
 ## 03 Locations – lokacije
@@ -52,6 +52,7 @@
 ![Event Form – obrazec aktivnosti](./wireframes/04-event-form.png)
 
 - Naslov zaslona je odvisen od načina: **Add event** ali **Edit event**.
+- V implementaciji sta naslova **Nova aktivnost** in **Uredi aktivnost**. Urejanje uporablja isti obrazec, vendar brez izbire načina ustvarjanja osnutka; prikazuje celotni izvorni interval in opis. **Shrani spremembe** posodobi obstoječi zapis, **Prekliči** vrne na isti dan brez sprememb. Opozorilo na prekrivanje zahteva izrecno potrditev.
 - Obrazec vsebuje naslednja polja:
   - ime oziroma naziv aktivnosti;
   - začetni in končni čas;

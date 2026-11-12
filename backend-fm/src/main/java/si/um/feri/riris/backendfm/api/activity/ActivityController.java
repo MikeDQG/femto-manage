@@ -1,14 +1,13 @@
 package si.um.feri.riris.backendfm.api.activity;
 import si.um.feri.riris.backendfm.persistence.category.CategoryRepository;
 import si.um.feri.riris.backendfm.persistence.category.Category;
-import si.um.feri.riris.backendfm.persistence.place.PlaceRepository;
 import si.um.feri.riris.backendfm.persistence.activity.ActivityRepository;
 import si.um.feri.riris.backendfm.persistence.activity.Activity;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.transaction.annotation.Transactional;
+import si.um.feri.riris.backendfm.engine.activity.ActivityService;
 import si.um.feri.riris.backendfm.persistence.user.UserRepository;
 import java.time.*;
 import java.util.*;
@@ -18,14 +17,14 @@ import java.util.*;
 public class ActivityController {
     private final ActivityRepository activities;
     private final CategoryRepository categories;
-    private final PlaceRepository places;
+    private final ActivityService service;
     private final UserRepository users;
 
     ActivityController(ActivityRepository activities, CategoryRepository categories,
-                       PlaceRepository places, UserRepository users) {
+                       ActivityService service, UserRepository users) {
         this.activities = activities;
         this.categories = categories;
-        this.places = places;
+        this.service = service;
         this.users = users;
     }
 
@@ -45,46 +44,26 @@ public class ActivityController {
                 owner(auth), "CONFIRMED", end, start);
     }
 
+    @GetMapping("/activities/{id}")
+    ActivityService.Details get(@PathVariable UUID id, Authentication auth) {
+        return service.get(id, owner(auth));
+    }
+
     @PostMapping("/activities")
-    @Transactional
     ResponseEntity<?> create(@RequestBody ActivityRequest request, Authentication auth) {
-        UUID ownerId = owner(auth);
-        Map<String, String> fields = new LinkedHashMap<>();
-        if (request.source() != null && !Set.of("MANUAL", "SUGGESTION", "AI").contains(request.source()))
-            fields.put("source", "Neveljaven vir aktivnosti.");
-        if (request.title() == null || request.title().isBlank()) fields.put("title", "Naziv je obvezen.");
-        else if (request.title().trim().length() > 200) fields.put("title", "Naziv je predolg.");
-        if (request.startAt() == null) fields.put("startAt", "Začetek je obvezen.");
-        if (request.endAt() == null) fields.put("endAt", "Konec je obvezen.");
-        if (request.startAt() != null && request.endAt() != null
-                && !request.endAt().isAfter(request.startAt())) fields.put("endAt", "Konec mora biti po začetku.");
-        if (request.categoryId() == null || categories.findById(request.categoryId()).filter(c -> c.active).isEmpty())
-            fields.put("categoryId", "Izberi aktivno kategorijo.");
-        if (request.placeId() != null && places.findById(request.placeId())
-                .filter(p -> p.userId.equals(ownerId) && !p.deleted).isEmpty()) fields.put("placeId", "Izberi svoj kraj.");
-        if (request.description() != null && request.description().length() > 2000)
-            fields.put("description", "Opis je predolg.");
-        if (!fields.isEmpty()) return ResponseEntity.badRequest().body(Map.of("message", "Preveri vnesene podatke.", "fields", fields));
+        return response(service.save(null, owner(auth), request), 201);
+    }
 
-        var overlaps = activities.findByUserIdAndStatusAndStartAtLessThanAndEndAtGreaterThanOrderByStartAt(
-                ownerId, "CONFIRMED", request.endAt().toInstant(), request.startAt().toInstant());
-        if (!overlaps.isEmpty() && !Boolean.TRUE.equals(request.confirmOverlap()))
-            return ResponseEntity.status(409).body(Map.of("message", "Aktivnost se prekriva.", "fields", Map.of(),
-                    "overlaps", overlaps.stream().map(a -> Map.of("title", a.title, "startAt", a.startAt, "endAt", a.endAt)).toList()));
+    @PutMapping("/activities/{id}")
+    ResponseEntity<?> update(@PathVariable UUID id, @RequestBody ActivityUpdateRequest request, Authentication auth) {
+        return response(service.save(id, owner(auth), request.asActivityRequest()), 200);
+    }
 
-        Activity activity = new Activity();
-        activity.id = UUID.randomUUID();
-        activity.userId = ownerId;
-        activity.categoryId = request.categoryId();
-        activity.placeId = request.placeId();
-        activity.title = request.title().trim();
-        activity.description = request.description();
-        activity.startAt = request.startAt().toInstant();
-        activity.endAt = request.endAt().toInstant();
-        activity.source = request.source() == null ? "MANUAL" : request.source();
-        activity.status = "CONFIRMED";
-        activity.createdAt = Instant.now();
-        activity.updatedAt = activity.createdAt;
-        return ResponseEntity.status(201).body(activities.saveAndFlush(activity));
+    private ResponseEntity<?> response(ActivityService.WriteResult result, int successStatus) {
+        if (!result.fields().isEmpty())
+            return ResponseEntity.badRequest().body(Map.of("message", "Preveri vnesene podatke.", "fields", result.fields()));
+        if (!result.overlaps().isEmpty())
+            return ResponseEntity.status(409).body(Map.of("message", "Aktivnost se prekriva.", "fields", Map.of(), "overlaps", result.overlaps()));
+        return ResponseEntity.status(successStatus).body(result.activity());
     }
 }

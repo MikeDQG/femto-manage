@@ -1,6 +1,7 @@
 export type CategoryOption = { id: string; code: string; name: string; active: boolean }
 export type PlaceOption = { id: string; name: string; latitude: number; longitude: number; radiusM: number }
 export type JournalActivity = { id: string; title: string; description?: string; startAt: string; endAt: string; categoryId: string; placeId?: string }
+export type ActivityDetails = JournalActivity & { categoryName: string; placeName?: string; source: string; status: string; createdAt: string; updatedAt: string }
 export type DayActivity = { id: string; title: string; description?: string; categoryId: string; categoryName: string;
   placeId?: string; placeName?: string; startAt: string; endAt: string; segmentStartAt: string; segmentEndAt: string; durationMinutes: number }
 export type CategoryTotal = { categoryId: string; code: string; name: string; minutes: number }
@@ -54,6 +55,8 @@ export const recognizePlace = (latitude: number, longitude: number) =>
 export const getActivities = (date: string) => request<JournalActivity[]>(`activities?date=${date}&zone=${encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone)}`)
 export const getDailyJournal = (date: string) => request<DailyJournal>(`journal/day?date=${date}&zone=${encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone)}`)
 export const createActivity = (activity: ActivityInput) => request<JournalActivity>('activities', activity)
+export const getActivity = (id: string) => request<ActivityDetails>(`activities/${id}`)
+export const updateActivity = (id: string, activity: Omit<ActivityInput, 'source'>) => request<JournalActivity>(`activities/${id}`, activity, 'PUT')
 export const getContextSuggestion = (placeId: string, startAt: string) => request<ContextSuggestion>('activities/context-suggestion', {
   placeId, startAt, zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 })
