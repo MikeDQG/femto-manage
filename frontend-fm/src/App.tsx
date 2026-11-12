@@ -5,10 +5,11 @@ import DailyBalance from './components/home/DailyBalance';
 import ActivityOverview from './components/home/ActivityOverview';
 import type { Activity as Event, Category } from './types';
 import './App.css';
+import AuthScreen from './components/auth/AuthScreen';
 type Screen = 'home' | 'goals' | 'calendar' | 'locations' | 'settings' | 'event' | 'locationForm' | 'login' | 'register';
 const cats: Category[] = [['Delo', 240, 115], ['Gibanje', 60, 45], ['Osebna rast', 60, 25], ['Odnosi', 90, 30], ['Počitek', 120, 70], ['Ustvarjanje', 90, 20]];
 const seed: Event[] = [{ title: 'Jutranji tek', start: '07:00', end: '08:00', category: 'Gibanje', place: 'Mestni park', description: 'Lahek tek za dober začetek dneva.' }, { title: 'Razvoj projekta', start: '09:00', end: '11:00', category: 'Delo', place: 'Domača pisarna', description: 'Delo na prototipu.' }, { title: 'Kosilo s prijatelji', start: '12:30', end: '13:30', category: 'Odnosi', place: 'Kavarna Rožmarin', description: 'Sproščeno kosilo.' }];
-export default function App() { const [theme, setTheme] = useState<'light' | 'dark'>(() => localStorage.getItem('femto-theme') === 'dark' ? 'dark' : 'light'), [screen, S] = useState<Screen>('home'), [events, E] = useState(seed), [locations, L] = useState(['Domača pisarna', 'Mestni park', 'Kavarna Rožmarin']), [modal, M] = useState<Event | null>(null), [form, F] = useState<Event>({ title: '', start: '09:00', end: '10:00', category: 'Delo', place: '', description: '' }), [name, N] = useState(''), [empty, Z] = useState(false), [toast, T] = useState(''); const notify = (s: string) => { T(s); setTimeout(() => T(''), 2000); }; const nav: [
+export default function App() { const [theme, setTheme] = useState<'light' | 'dark'>(() => localStorage.getItem('femto-theme') === 'dark' ? 'dark' : 'light'), [screen, S] = useState<Screen>('register'), [events, E] = useState(seed), [locations, L] = useState(['Domača pisarna', 'Mestni park', 'Kavarna Rožmarin']), [modal, M] = useState<Event | null>(null), [form, F] = useState<Event>({ title: '', start: '09:00', end: '10:00', category: 'Delo', place: '', description: '' }), [name, N] = useState(''), [empty, Z] = useState(false), [toast, T] = useState(''); const notify = (s: string) => { T(s); setTimeout(() => T(''), 2000); }; const nav: [
     Screen,
     React.ReactNode,
     string
@@ -30,16 +31,7 @@ export default function App() { const [theme, setTheme] = useState<'light' | 'da
         </label>;
     return <div className="app" data-theme={theme}>
         {screen === 'login' || screen === 'register' ?
-            <main className="auth"><div className="authart">MAJHNI KORAKI.<br /><i>POLNO ŽIVLJENJE.</i></div><form className="panel form" onSubmit={e => { e.preventDefault(); S('home'); }}>
-                <label className="eyebrow">DOBRODOŠEL V FEMTO</label>
-                <h1>{screen === 'login' ? 'Lepo te je spet videti' : 'Začni s svojim ritmom'}</h1>
-                {screen === 'register' && field('IME', '', () => { }, 'text')}
-                {field('E-POŠTA', '', () => { }, 'email')}
-                {field('GESLO', '', () => { }, 'password')}
-                <button className="primary">{screen === 'login' ? 'Prijava' : 'Ustvari račun'} ↗</button>
-                <p>{screen === 'login' ? 'Še nimaš računa?' : 'Že imaš račun?'} <a onClick={() => S(screen === 'login' ? 'register' : 'login')}>
-                    {screen === 'login' ? 'Registriraj se' : 'Prijavi se'}</a></p>
-                <small>Predstavitveni prototip · brez povezave</small></form></main> : <>
+            <AuthScreen mode={screen} onModeChange={S} /> : <>
                 <main className="content">{screen === 'home' && <>
                     <HomeGreeting name="Maja" date="SREDA · 11. NOVEMBER 2026" onViewDay={() => S('calendar')} />
                     <div className="grid">

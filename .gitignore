@@ -9,6 +9,8 @@
 **/dist/
 **/.vite/
 **/coverage/
+**/test-results/
+**/playwright-report/
 
 ### Local environment and secrets ###
 .env
