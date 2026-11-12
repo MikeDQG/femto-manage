@@ -37,3 +37,6 @@ export async function authRequest<T>(path: string, body?: unknown): Promise<T> {
 }
 
 export const register = (email: string, password: string) => authRequest<User>('register', { email, password })
+export const login = (email: string, password: string) => authRequest<User>('login', { email, password })
+export const currentUser = () => authRequest<User>('me')
+export const logout = () => authRequest<void>('logout', {})

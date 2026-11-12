@@ -9,6 +9,11 @@ import java.util.LinkedHashMap;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+    ResponseEntity<ApiError> authentication() {
+        return ResponseEntity.status(401).body(ApiError.message("E-poštni naslov ali geslo ni pravilno."));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ApiError> validation(MethodArgumentNotValidException exception) {
         var fields = new LinkedHashMap<String, String>();

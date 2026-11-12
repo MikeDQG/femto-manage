@@ -1,10 +1,15 @@
 import { useState } from 'react'
-import { AuthError, register } from '../../api/auth'
+import { AuthError, login, register } from '../../api/auth'
+import type { User } from '../../api/auth'
 import styles from './AuthScreen.module.css'
 
-type Props = { mode: 'register' | 'login'; onModeChange: (mode: 'register' | 'login') => void }
+type Props = {
+  mode: 'register' | 'login'
+  onModeChange: (mode: 'register' | 'login') => void
+  onAuthenticated: (user: User) => void
+}
 
-export default function AuthScreen({ mode, onModeChange }: Props) {
+export default function AuthScreen({ mode, onModeChange, onAuthenticated }: Props) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<AuthError | null>(null)
@@ -17,9 +22,16 @@ export default function AuthScreen({ mode, onModeChange }: Props) {
     setError(null)
     setBusy(true)
     try {
-      await register(email, password)
-      setPassword('')
-      setRegistered(true)
+      if (mode === 'register') {
+        await register(email, password)
+        setPassword('')
+        setRegistered(true)
+        onModeChange('login')
+      } else {
+        const user = await login(email, password)
+        setPassword('')
+        onAuthenticated(user)
+      }
     } catch (error) {
       setError(error as AuthError)
     } finally {
@@ -56,10 +68,9 @@ export default function AuthScreen({ mode, onModeChange }: Props) {
           {error?.fields.password ?? (mode === 'register' ? 'Uporabi vsaj 12 znakov, največ 72 bajtov UTF-8.' : '')}
         </small>
       </label>
-      <button className="primary" disabled={busy || mode === 'login'}>
+      <button className="primary" disabled={busy}>
         {busy ? 'Počakaj …' : mode === 'register' ? 'Ustvari račun' : 'Prijava'} ↗
       </button>
-      {mode === 'login' && <p>Prijava bo dodana v naslednjem koraku.</p>}
       <p>{mode === 'login' ? 'Še nimaš računa?' : 'Že imaš račun?'}{' '}
         <button type="button" className="link" disabled={busy} onClick={switchMode}>
           {mode === 'login' ? 'Registriraj se' : 'Prijavi se'}
