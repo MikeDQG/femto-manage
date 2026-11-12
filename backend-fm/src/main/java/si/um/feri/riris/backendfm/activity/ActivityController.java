@@ -31,9 +31,6 @@ public class ActivityController {
     @GetMapping("/categories")
     List<Category> categories() { return categories.findByActiveTrueOrderByName(); }
 
-    @GetMapping("/places")
-    List<Place> places(Authentication auth) { return places.findByUserIdOrderByName(owner(auth)); }
-
     @GetMapping("/activities")
     List<Activity> day(@RequestParam LocalDate date, @RequestParam String zone, Authentication auth) {
         ZoneId timezone = ZoneId.of(zone);
@@ -57,14 +54,14 @@ public class ActivityController {
         if (request.categoryId() == null || categories.findById(request.categoryId()).filter(c -> c.active).isEmpty())
             fields.put("categoryId", "Izberi aktivno kategorijo.");
         if (request.placeId() != null && places.findById(request.placeId())
-                .filter(p -> p.userId.equals(ownerId)).isEmpty()) fields.put("placeId", "Izberi svoj kraj.");
+                .filter(p -> p.userId.equals(ownerId) && !p.deleted).isEmpty()) fields.put("placeId", "Izberi svoj kraj.");
         if (request.description() != null && request.description().length() > 2000)
             fields.put("description", "Opis je predolg.");
         if (!fields.isEmpty()) return ResponseEntity.badRequest().body(Map.of("message", "Preveri vnesene podatke.", "fields", fields));
 
         var overlaps = activities.findByUserIdAndStatusAndStartAtLessThanAndEndAtGreaterThanOrderByStartAt(
                 ownerId, "CONFIRMED", request.endAt().toInstant(), request.startAt().toInstant());
-        if (!overlaps.isEmpty() && !request.confirmOverlap())
+        if (!overlaps.isEmpty() && !Boolean.TRUE.equals(request.confirmOverlap()))
             return ResponseEntity.status(409).body(Map.of("message", "Aktivnost se prekriva.", "fields", Map.of(),
                     "overlaps", overlaps.stream().map(a -> Map.of("title", a.title, "startAt", a.startAt, "endAt", a.endAt)).toList()));
 

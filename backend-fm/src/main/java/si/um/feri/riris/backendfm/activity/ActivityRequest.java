@@ -5,4 +5,4 @@ import java.util.UUID;
 
 public record ActivityRequest(String title, OffsetDateTime startAt, OffsetDateTime endAt,
                               UUID categoryId, UUID placeId, String description,
-                              boolean confirmOverlap) {}
+                              Boolean confirmOverlap) {}
