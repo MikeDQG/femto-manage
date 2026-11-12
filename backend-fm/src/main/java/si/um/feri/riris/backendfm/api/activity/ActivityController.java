@@ -50,7 +50,7 @@ public class ActivityController {
     ResponseEntity<?> create(@RequestBody ActivityRequest request, Authentication auth) {
         UUID ownerId = owner(auth);
         Map<String, String> fields = new LinkedHashMap<>();
-        if (request.source() != null && !Set.of("MANUAL", "SUGGESTION").contains(request.source()))
+        if (request.source() != null && !Set.of("MANUAL", "SUGGESTION", "AI").contains(request.source()))
             fields.put("source", "Neveljaven vir aktivnosti.");
         if (request.title() == null || request.title().isBlank()) fields.put("title", "Naziv je obvezen.");
         else if (request.title().trim().length() > 200) fields.put("title", "Naziv je predolg.");
