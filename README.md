@@ -21,4 +21,6 @@ Izrecni razvojni ukaz za testne kraje in aktivnosti je opisan v [navodilih za ra
 
 Prepoznavanje znanega kraja je opisano v [navodilih za US-03](docs/12-prepoznavanje-kraja.md).
 
+Dnevna časovnica in API sta opisana v [navodilih za US-06](docs/13-dnevna-casovnica.md).
+
 Registracija in API sta opisana v [navodilih za avtentikacijo](docs/08-avtentikacija.md).

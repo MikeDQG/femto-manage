@@ -1,6 +1,10 @@
 export type CategoryOption = { id: string; code: string; name: string; active: boolean }
 export type PlaceOption = { id: string; name: string; latitude: number; longitude: number; radiusM: number }
 export type JournalActivity = { id: string; title: string; description?: string; startAt: string; endAt: string; categoryId: string; placeId?: string }
+export type DayActivity = { id: string; title: string; description?: string; categoryId: string; categoryName: string;
+  placeId?: string; placeName?: string; startAt: string; endAt: string; segmentStartAt: string; segmentEndAt: string; durationMinutes: number }
+export type CategoryTotal = { categoryId: string; code: string; name: string; minutes: number }
+export type DailyJournal = { date: string; zone: string; activities: DayActivity[]; totals: CategoryTotal[] }
 export type Overlap = { title: string; startAt: string; endAt: string }
 export type ActivityInput = { title: string; startAt: string | null; endAt: string | null; categoryId: string | null; placeId: string | null; description: string; confirmOverlap: boolean }
 export type PlaceCandidate = { id: string; name: string; distanceM: number; radiusM: number }
@@ -46,4 +50,5 @@ export const getPlaces = () => request<PlaceOption[]>('places')
 export const recognizePlace = (latitude: number, longitude: number) =>
   request<PlaceRecognition>(`places/recognition?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}`)
 export const getActivities = (date: string) => request<JournalActivity[]>(`activities?date=${date}&zone=${encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone)}`)
+export const getDailyJournal = (date: string) => request<DailyJournal>(`journal/day?date=${date}&zone=${encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone)}`)
 export const createActivity = (activity: ActivityInput) => request<JournalActivity>('activities', activity)
