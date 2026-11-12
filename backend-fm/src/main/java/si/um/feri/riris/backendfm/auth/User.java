@@ -23,7 +23,7 @@ public class User {
 
     protected User() {}
 
-    User(String email, String passwordHash, Role role) {
+    public User(String email, String passwordHash, Role role) {
         this.id = UUID.randomUUID();
         this.email = email;
         this.passwordHash = passwordHash;
