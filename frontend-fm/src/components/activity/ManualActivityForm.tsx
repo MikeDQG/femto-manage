@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { createActivity, JournalError, type ActivityInput, type CategoryOption, type Overlap, type PlaceOption } from '../../api/activities'
+import PlaceRecognitionPanel from '../place-recognition/PlaceRecognitionPanel'
+import type { PlaceRecognitionState } from '../place-recognition/usePlaceRecognition'
 
-type Props = { categories: CategoryOption[]; places: PlaceOption[]; onSaved: () => void; onCancel: () => void }
+type Props = { categories: CategoryOption[]; places: PlaceOption[]; recognition: PlaceRecognitionState; onSaved: () => void; onCancel: () => void }
 
-export default function ManualActivityForm({ categories, places, onSaved, onCancel }: Props) {
+export default function ManualActivityForm({ categories, places, recognition, onSaved, onCancel }: Props) {
   const [form, setForm] = useState({ title: '', startAt: '', endAt: '', categoryId: '', placeId: '', description: '' })
   const [fields, setFields] = useState<Record<string, string>>({})
   const [overlaps, setOverlaps] = useState<Overlap[]>([])
@@ -46,6 +48,7 @@ export default function ManualActivityForm({ categories, places, onSaved, onCanc
     <label className="field"><span>Kraj (neobvezno)</span><select value={form.placeId} onChange={event => change('placeId', event.target.value)} aria-invalid={!!fields.placeId}>
       <option value="">Brez kraja</option>{places.map(place => <option key={place.id} value={place.id}>{place.name}</option>)}
     </select>{fields.placeId && <small role="alert">{fields.placeId}</small>}</label>
+    <PlaceRecognitionPanel recognition={recognition} onSelect={id => change('placeId', id)} />
     <label className="field"><span>Opis (neobvezno)</span><textarea value={form.description} onChange={event => change('description', event.target.value)} />
       {fields.description && <small role="alert">{fields.description}</small>}</label>
     {error && <p role="alert">{error}</p>}
