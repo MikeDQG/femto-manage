@@ -4,11 +4,11 @@ Zgodbe so usklajene z zasnovo, obsegom, podatkovnim modelom in pravicami v dokum
 
 US-01–US-07, US-13 in US-16–US-17 pokrivajo devet MVP funkcionalnosti, US-08–US-12 poznejše nadgradnje, US-14–US-15 pa podporne skrbniške funkcionalnosti. Dnevnik vsebuje dejanske aktivnosti; načrtovani dogodki in predlogi postanejo potrjeni zapisi šele po uporabnikovi potrditvi.
 
-## US-01: Ročno beleženje aktivnosti
+## US-01: Ročno beleženje in urejanje aktivnosti
 
 - **Povezana funkcionalnost:** FR-01 – Časovni bloki [MVP].
 - **Uporabniška vloga:** Uporabnik.
-- **Uporabniška zgodba:** Kot uporabnik želim vnesti časovni blok izvedene aktivnosti, da lahko spremljam, za kaj sem porabil čas.
+- **Uporabniška zgodba:** Kot uporabnik želim vnesti in pozneje popraviti časovni blok izvedene aktivnosti, da lahko pravilno spremljam, za kaj sem porabil čas.
 
 **Merila sprejemljivosti (acceptance criteria):**
 
@@ -16,6 +16,10 @@ US-01–US-07, US-13 in US-16–US-17 pokrivajo devet MVP funkcionalnosti, US-08
 2. Manjkajoča obvezna polja ali konec, ki ni poznejši od začetka, preprečijo shranjevanje; sistem označi vsako neveljavno polje in razlog.
 3. Pred shranjevanjem sistem ob prekrivanju z lastno potrjeno aktivnostjo prikaže njen naziv in interval ter zahteva popravek ali izrecno nadaljevanje kljub opozorilu. Stik konca ene aktivnosti z začetkom druge ni prekrivanje.
 4. Potrditev ustvari eno potrjeno aktivnost v lastnem dnevniku in posodobi dnevni pregled; preklic ne ustvari potrjene aktivnosti. Vnos v tuj dnevnik je zavrnjen tudi prek API-ja.
+5. Klik ali dotik aktivnosti na časovnici odpre podrobnosti z akcijo **Uredi**. Obrazec predizpolni naziv, izvorni začetni in končni čas (tudi čez polnoč), kategorijo, kraj in opis. Shranjevanje posodobi isti ID brez nove aktivnosti; lastnik, createdAt, vir in stanje ostanejo nespremenjeni, updatedAt se osveži.
+6. Pri urejanju aktivnost ne šteje kot lastno prekrivanje; druga lastna potrjena aktivnost zahteva izrecno potrditev. Preklic, neveljavna polja, nepotrjeno prekrivanje ali neuspešno shranjevanje ne spremenijo shranjenega zapisa. Napaka ohrani vnos in omogoči ponovni poskus.
+7. Urejanje naziva ali opisa ohrani nespremenjeno neaktivno kategorijo oziroma izbrisani lastni kraj. Nova povezava mora kazati na aktivno kategorijo oziroma lastni neizbrisani kraj. Tujega ali neobstoječega ID-ja ni mogoče prebrati ali posodobiti; pisanje zahteva CSRF.
+8. Po urejanju ostane izbran datum časovnice; sprememba intervala ali kategorije osveži prizadete dnevne preglede, seštevke in domači seznam. Aktivnost, premaknjena na drug dan, izgine s prejšnjega in se prikaže na novem. Že deljeni posnetki povzetkov ostanejo nespremenjeni. Potek deluje na telefonu in namizju. Implementacija urejanja: [#66](https://github.com/MikeDQG/femto-manage/issues/66).
 
 ## US-02: Upravljanje lokacij
 

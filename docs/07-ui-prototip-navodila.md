@@ -27,8 +27,9 @@ Ta dokument dopolnjuje [wireframe](06-wireframes.md) z odločitvami iz pogovora 
 
 - Dnevna časovnica uporablja **mrežo po urah**. Višina bloka odraža trajanje aktivnosti, praznine med bloki pa ostanejo vidne. Na telefonu se časovnica po potrebi pomika navpično; ni je treba stisniti na višino enega zaslona.
 - Na širšem zaslonu je časovnica širša in izkoristi razpoložljiv prostor.
-- Blok na mreži kaže le osnovne podatke. Dotik odpre pojavno podrobnost z vsemi podatki aktivnosti; daljša vsebina v njej se lahko pomika. V zgornjem delu sta akciji za urejanje in odstranitev.
+- Blok na mreži kaže le osnovne podatke. Klik, dotik ali tipkovniška aktivacija odpre pomične podrobnosti s celotnim intervalom, kategorijo, krajem in opisom. Akcija **Uredi** odpre predizpolnjen obrazec; **Zapri podrobnosti** ali Escape zapre dialog. Brisanje aktivnosti ni del [#66](https://github.com/MikeDQG/femto-manage/issues/66) in nima nedelujočega gumba na dejanski časovnici.
 - Dodajanje in urejanje aktivnosti uporablja obrazec iz obstoječega wireframa. Neposredno vlečenje ali spreminjanje časa na mreži še ni določeno in ni del osnovnega prototipa.
+- Urejanje vključuje opis in izvorna datuma začetka ter konca tudi pri aktivnosti čez polnoč. **Shrani spremembe** posodobi isti zapis; napake po poljih in opozorilo o prekrivanju ohranijo vnos, med shranjevanjem je oddaja onemogočena. **Prekliči** ne shrani ničesar. Po uspehu ostane izbran dan, osvežita se časovnica in domači seznam. Podrobnosti API-ja in zgodovinskih povezav so v [ročnem vnosu](09-rocni-vnos.md#urejanje-potrjene-aktivnosti-66).
 
 ## Lokacije
 

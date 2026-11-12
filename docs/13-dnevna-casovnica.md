@@ -8,6 +8,12 @@ Seštevki uporabljajo dejansko trajanje v sekundah znotraj meja lokalnega dne. �
 
 Zaslon Koledar omogoča izbiro dneva in prikaže bloke na časovni mreži ter seštevke po kategorijah. Datum ostane izbran tudi po vnosu nove aktivnosti. Prazni dnevi in napake nalaganja imajo ločen prikaz.
 
+## Podrobnosti in urejanje (#66)
+
+Klik ali dotik bloka odpre podrobnosti, naložene z `GET /api/activities/{id}`. Blok je dostopen tudi s tipkovnico. Podrobnosti prikazujejo celotni izvorni interval in opis; **Uredi** odpre predizpolnjen obrazec. Zapiranje dialoga ali preklic urejanja ne spremeni dnevnika. [Pravila API-ja za urejanje](09-rocni-vnos.md#urejanje-potrjene-aktivnosti-66) določajo `PUT`, validacijo, CSRF, ohranitev zgodovinskih povezav in izrecno potrditev prekrivanja z drugimi aktivnostmi. Urejana aktivnost sama ni prekrivanje.
+
+Po uspehu ostane izbran datum časovnice; izbrani dnevni pregled in današnji domači seznam se ponovno naložita. Seštevki se izračunajo iz novih intervalov in kategorij ob vsakem branju. Če aktivnost premakneš na drug dan, izgine s prejšnjega, na novem dnevu pa se prikaže z istim ID-jem. Aktivnost čez polnoč se za prikaz še vedno razdeli na dnevna segmenta, urejanje pa uporablja celotni izvorni interval. Že deljeni posnetki povzetkov ostanejo nespremenjeni po ADR 007. Brisanje in vlečenje blokov nista del [#66](https://github.com/MikeDQG/femto-manage/issues/66).
+
 ## Zasebna refleksija (#26)
 
 [#26](https://github.com/MikeDQG/femto-manage/issues/26) dodaja ločeno tabelo `daily_reflection` (migraciji V6 in V7). Enoličnost uporabnik–datum in zaklep lastnika pri shranjevanju preprečita podvojitev tudi ob sočasni prvi zahtevi. PostgreSQL tabela ima RLS in odvzete pravice javnim vlogam Data API; dostop poteka prek Springove seje.
