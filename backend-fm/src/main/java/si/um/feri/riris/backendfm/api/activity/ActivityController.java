@@ -50,6 +50,8 @@ public class ActivityController {
     ResponseEntity<?> create(@RequestBody ActivityRequest request, Authentication auth) {
         UUID ownerId = owner(auth);
         Map<String, String> fields = new LinkedHashMap<>();
+        if (request.source() != null && !Set.of("MANUAL", "SUGGESTION").contains(request.source()))
+            fields.put("source", "Neveljaven vir aktivnosti.");
         if (request.title() == null || request.title().isBlank()) fields.put("title", "Naziv je obvezen.");
         else if (request.title().trim().length() > 200) fields.put("title", "Naziv je predolg.");
         if (request.startAt() == null) fields.put("startAt", "Začetek je obvezen.");
@@ -79,7 +81,7 @@ public class ActivityController {
         activity.description = request.description();
         activity.startAt = request.startAt().toInstant();
         activity.endAt = request.endAt().toInstant();
-        activity.source = "MANUAL";
+        activity.source = request.source() == null ? "MANUAL" : request.source();
         activity.status = "CONFIRMED";
         activity.createdAt = Instant.now();
         activity.updatedAt = activity.createdAt;
