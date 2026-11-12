@@ -14,3 +14,5 @@
 @media(max-width:700px){.form .twocol{grid-template-columns:1fr}.form .row button{flex:1;min-width:130px}}
 .home-meta{display:flex;align-items:center;justify-content:space-between;gap:16px}
 @media(max-width:700px){.home-greeting{margin-bottom:16px}.home-greeting h1{margin:0 0 9px;font-size:30px}.home-meta{gap:8px}.home-meta .eyebrow{font-size:9px;letter-spacing:.8px}}
+
+.home-cards{display:grid;gap:18px}

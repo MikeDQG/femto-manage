@@ -1,3 +1,4 @@
+import SettingsScreen from './components/settings/SettingsScreen';
 import PlacesScreen from './components/places/PlacesScreen';
 import { useCallback, useEffect, useState } from 'react';
 import ManualActivityForm from './components/activity/ManualActivityForm';
@@ -55,28 +56,29 @@ export default function WorkspaceScreen({ user, onLogout }: { user: User; onLogo
         {<>
                 <main className="content">{screen === 'home' && <>
                     <HomeGreeting name={user.email.split('@')[0]} date={new Date().toLocaleDateString("sl-SI", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} onViewDay={() => S('calendar')} />
-                    <div className="grid">
+                    <div className="home-cards"><div className="grid">
                         <DailyBalance categories={cats} onViewGoals={() => S('goals')} />
                         <ActivityOverview activities={events} date={new Date().toLocaleDateString("sl-SI")} onViewTimeline={() => S('calendar')} />
                     </div>
-                    <PlaceRecognitionPanel recognition={recognition} />
+                    <PlaceRecognitionPanel recognition={recognition} /></div>
                     <p className="quote">✳&#x3000;“Več namena v času, ki ga imaš.”</p></>}
-                    {screen === 'goals' && <><Page title="Cilji & kategorije" sub="Majhne namere, ki oblikujejo tvoj dan." action={
+                    {screen === 'goals' && <><Page showEyebrow={false} title="Cilji & kategorije" sub="Majhne namere, ki oblikujejo tvoj dan." action={
                         <button className="primary" onClick={() => M({ title: 'goal', start: '', end: '', category: '', place: '', description: '' })}>＋ Dodaj kategorijo</button>}/>
                         {empty ? <Empty action={() => Z(false)}/> : <div className="list">{cats.map(([n, g, d], i) =>
                             <div className="panel goal" key={n}><span className="cat">✳</span><b>{n}<small>{g} min dnevno</small></b>
                                 <div className="progress">{d} / {g} min <i><i style={{ width: `${d / g * 100}%`, background: ['#356859', '#cb805a', '#8175b5'][i % 3] }}/></i></div>
                                 <b>{Math.round(d / g * 100)}%</b></div>)}</div>}
                         <button className="link" onClick={() => Z(!empty)}>{empty ? 'Prikaži vzorčne podatke' : 'Predogled praznega stanja'}</button>
-                    </>}{screen === 'calendar' && <CalendarScreen date={selectedCalendarDate} onDateChange={setSelectedCalendarDate} onAddActivity={start} refreshKey={calendarRefresh} />}{screen === 'locations' && <PlacesScreen onChanged={loadJournal} />}{screen === 'settings' && <><Page title="Nastavitve" sub="Profil in predstavitvene možnosti."/><div className="panel form"><b>Videz</b><p>Izberi temo za to napravo.</p><div className="theme-choice"><button className={theme === 'light' ? 'selected' : ''} onClick={() => { setTheme('light'); localStorage.setItem('femto-theme', 'light'); }}>Svetla</button><button className={theme === 'dark' ? 'selected' : ''} onClick={() => { setTheme('dark'); localStorage.setItem('femto-theme', 'dark'); }}>Temna</button></div><b>Videz</b><p>Izberi temo za to napravo.</p><div className="theme-choice"><button className={theme === 'light' ? 'selected' : ''} onClick={() => { setTheme('light'); localStorage.setItem('femto-theme', 'light'); }}>Svetla</button><button className={theme === 'dark' ? 'selected' : ''} onClick={() => { setTheme('dark'); localStorage.setItem('femto-theme', 'dark'); }}>Temna</button></div><b>{user.email}</b><p>{user.role}</p><button className="outline" onClick={onLogout}>Odjava</button><p>Vzorčni podatki · brez povezave</p></div></>}{screen === 'event' && <><Page title="Nova aktivnost" sub="Zapiši izvedeno aktivnost."/><ManualActivityForm categories={categoryOptions} places={placeOptions} recognition={recognition} onSaved={() => { loadJournal(); setCalendarRefresh(current => current + 1); S('calendar'); notify('Aktivnost shranjena'); }} onCancel={() => S('calendar')} /></>}{screen === 'locationForm' && <><Page title="Nova lokacija" sub="Kraji dajo aktivnostim kontekst."/><form className="panel form" onSubmit={e => { e.preventDefault(); if (!name) {
+                    </>}{screen === 'calendar' && <CalendarScreen date={selectedCalendarDate} onDateChange={setSelectedCalendarDate} onAddActivity={start} refreshKey={calendarRefresh} />}{screen === 'locations' && <PlacesScreen onChanged={loadJournal} />}{screen === 'settings' && <SettingsScreen user={user} theme={theme} onThemeChange={value => { setTheme(value); localStorage.setItem('femto-theme', value); }} onLogout={onLogout} />}{screen === 'event' && <><Page title="Nova aktivnost" sub="Zapiši izvedeno aktivnost."/><ManualActivityForm categories={categoryOptions} places={placeOptions} recognition={recognition} onSaved={() => { loadJournal(); setCalendarRefresh(current => current + 1); S('calendar'); notify('Aktivnost shranjena'); }} onCancel={() => S('calendar')} /></>}{screen === 'locationForm' && <><Page title="Nova lokacija" sub="Kraji dajo aktivnostim kontekst."/><form className="panel form" onSubmit={e => { e.preventDefault(); if (!name) {
     notify('Naziv lokacije je obvezen.');
     return;
 } L([...locations, name]); S('locations'); }}>{field('NAZIV LOKACIJE', name, v => N(v))}<button type="button" className="location-use" onClick={() => notify('Uporabljena vzor?na lokacija')}><LocateFixed size={18}/> Uporabi trenutno lokacijo <small>Prihrani ro?ni vnos naslova</small></button>{field('NASLOV (NEOBVEZNO)', '', () => { })}<div className="twocol">{field('ZEM. ŠIRINA', '46.0569', () => { })}{field('ZEM. DOLŽINA', '14.5058', () => { })}</div>{field('RADIJ (METRI)', '100', () => { }, 'number')}<button type="button" className="outline" onClick={() => notify('Uporabljena vzorčna lokacija')}>⌖ Uporabi trenutno lokacijo</button><button className="primary">Shrani lokacijo</button></form></>}</main><nav>{nav.map(([key, icon, label]) => <button className={screen === key ? 'active' : ''} onClick={() => S(key)} key={key}>{icon}<small>{label}</small></button>)}</nav></>}{modal && <div className="shade" onClick={() => M(null)}><div className="panel modal" onClick={e => e.stopPropagation()}><div className="row"><label className="eyebrow">PODROBNOST</label><button onClick={() => M(null)}>×</button></div>{modal.title === 'place' ? <><h2>{modal.place}</h2><p>⌖&#x3000;Maribor · 46.0569° N · radij 100 m</p><div className="row"><button className="outline" onClick={() => { N(modal.place); M(null); S('locationForm'); }}>Uredi</button><button className="danger" onClick={() => { L(locations.filter(x => x !== modal.place)); M(null); }}>Odstrani</button></div></> : <><h2>{modal.title}</h2><p>{modal.start}—{modal.end} · {modal.place} · {modal.category}</p><p>{modal.description}</p><div className="row"><button className="outline" onClick={() => { M(null); notify('Urejanje aktivnosti še ni na voljo.'); }}>Uredi</button><button className="danger" onClick={() => { M(null); notify('Brisanje aktivnosti še ni na voljo.'); }}>Odstrani</button></div></>}</div></div>}{toast && <div className="toast">{toast}</div>}</div>; }
-function Page({ title, sub, action }: {
+function Page({ title, sub, action, showEyebrow = true }: {
+    showEyebrow?: boolean;
     title: string;
     sub: string;
     action?: React.ReactNode;
-}) { return <div className="head"><div><label className="eyebrow">FEMTO · TVOJ PROSTOR</label><h1>{title}<span>.</span></h1><p>{sub}</p></div>{action}</div>; }
+}) { return <div className="head"><div>{showEyebrow && <label className="eyebrow">FEMTO · TVOJ PROSTOR</label>}<h1>{title}<span>.</span></h1><p>{sub}</p></div>{action}</div>; }
 function Empty({ action }: {
     action: () => void;
 }) { return <div className="panel empty"><h2>Še nimaš kategorij</h2><p>Dodaj prvo kategorijo in določi, čemu želiš nameniti čas.</p><button className="primary" onClick={action}>＋ Dodaj</button></div>; }

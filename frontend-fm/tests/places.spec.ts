@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('manages places with manual coordinates and optional geolocation', async ({ page, context }) => {
+test('manages places with manual coordinates and optional geolocation', async ({ page, context }, testInfo) => {
   const email = `places-${crypto.randomUUID()}@example.com`
   const csrf = await (await page.request.get('/api/auth/csrf')).json()
   await page.request.post('/api/auth/register', { headers: { [csrf.headerName]: csrf.token }, data: { email, password: 'long-password-123' } })
@@ -19,6 +19,9 @@ test('manages places with manual coordinates and optional geolocation', async ({
   await page.getByLabel('Zemljepisna širina').fill('46')
   await page.getByLabel('Zemljepisna dolžina').fill('15')
   await page.getByRole('button', { name: 'Shrani lokacijo' }).click()
+  await expect(page.getByRole('button', { name: 'Uredi Dom' })).toHaveText('Uredi')
+  await expect(page.getByRole('button', { name: 'Izbriši Dom' })).toHaveText('Izbriši')
+  await page.screenshot({ path: testInfo.outputPath('locations.png'), fullPage: true })
   await page.getByRole('button', { name: 'Uredi Dom' }).click()
   await page.getByLabel('Ime lokacije').fill('Pisarna')
   await page.getByRole('button', { name: 'Shrani lokacijo' }).click()
