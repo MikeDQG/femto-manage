@@ -1,0 +1,6 @@
+.dialog { width: min(560px, calc(100% - 32px)); max-height: calc(100dvh - 40px); overflow-y: auto; color: var(--text); background: var(--surface); border: 1px solid var(--line); }
+.dialog::backdrop { background: rgb(0 0 0 / 45%); }
+.dialog h2 { margin: 0; }
+.dialog dt { color: var(--muted); font-size: 12px; margin-top: 14px; }
+.dialog dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.description { white-space: pre-wrap; }

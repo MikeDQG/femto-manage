@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
-import { getDailyJournal, type DailyJournal, type DayActivity } from '../../api/activities'
+import { getDailyJournal, type ActivityDetails, type DailyJournal, type DayActivity } from '../../api/activities'
+import ActivityDetailsDialog from './ActivityDetailsDialog'
 import styles from './CalendarScreen.module.css'
 import DailyReflectionForm from './reflection/DailyReflectionForm'
 import SummarySharingPanel from './sharing/SummarySharingPanel'
 
-type Props = { date: string; onDateChange: (date: string) => void; onAddActivity: () => void; refreshKey: number }
+type Props = { date: string; onDateChange: (date: string) => void; onAddActivity: () => void; onEditActivity: (activity: ActivityDetails) => void; refreshKey: number }
 
 function formatMinutes(minutes: number) {
   const hours = Math.floor(minutes / 60)
@@ -41,7 +42,8 @@ function position(activities: DayActivity[], dayStart: number, dayEnd: number): 
   })
 }
 
-export default function CalendarScreen({ date, onDateChange, onAddActivity, refreshKey }: Props) {
+export default function CalendarScreen({ date, onDateChange, onAddActivity, onEditActivity, refreshKey }: Props) {
+  const [selectedId, setSelectedId] = useState<string | null>(null)
   const [journal, setJournal] = useState<DailyJournal | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -84,16 +86,17 @@ export default function CalendarScreen({ date, onDateChange, onAddActivity, refr
         {journal.activities.length === 0 && <p className={styles.empty}>Za izbrani dan še ni potrjenih aktivnosti.</p>}
         <div className={styles.ruler}>{hours.map(hour => <div className={styles.hour} key={hour.instant}><small>{hour.label}</small><span /></div>)}</div>
         <div className={styles.blocks}>{blocks.map(({ activity, top, height, column, columns }) =>
-          <div className={styles.block} key={activity.id} style={{ top: `${top}%`, height: `${height}%`,
+          <button type="button" className={styles.block} key={activity.id} onClick={() => setSelectedId(activity.id)} aria-label={`Podrobnosti: ${activity.title}`} style={{ top: `${top}%`, height: `${height}%`,
             left: `${column / columns * 100}%`, width: `${100 / columns}%` }}>
             <strong>{activity.title}</strong><span>{clock(activity.segmentStartAt)}–{clock(activity.segmentEndAt)} · {formatMinutes(activity.durationMinutes)}</span>
             <span>{activity.categoryName}{activity.placeName ? ` · ${activity.placeName}` : ''}</span>
-          </div>)}</div>
+          </button>)}</div>
       </div>
       <aside className={`panel ${styles.totals}`}><h2>Trajanje po kategorijah</h2>
         {journal.totals.map(total => <div className={styles.total} key={total.categoryId}><span>{total.name}</span><strong>{formatMinutes(total.minutes)}</strong></div>)}
         <p>Pri potrjenih prekrivanjih se čas lahko šteje večkrat.</p>
       </aside>
     </div>}
+    {selectedId && <ActivityDetailsDialog key={selectedId} id={selectedId} onClose={() => setSelectedId(null)} onEdit={onEditActivity} />}
   </section>
 }
