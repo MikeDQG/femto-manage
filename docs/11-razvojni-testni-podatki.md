@@ -17,6 +17,8 @@ Za pregled brez sprememb nastavi `SEED_ACTION=status` in ponovi zgornji ukaz z d
 
 Ustvari tri kraje: Dom, FERI in Mestni park. Ustvari devet potrjenih ročnih aktivnosti med referenčnim dnevom in prejšnjima dvema dnevoma. Zajete so vse navedene kategorije, več aktivnosti istega dne, prekrivanje med delom in učenjem, počitek čez polnoč, aktivnost brez kraja in projektno delo na FERI ob 9.00 vse tri dni. Zapisi imajo stabilne UUID-je, določene iz uporabnika, datuma in oznake zapisa.
 
+Za prikaz kontekstnega predloga uporabi FERI in začetek ob 9.00. [Navodila US-04](14-kontekstni-predlog.md#prikaz-z-računom-aaa) vsebujejo konkreten postopek za `a@a.a` in ločen dodatek štirih zgodovinskih zapisov za prikaz prevladujoče kategorije ([#65](https://github.com/MikeDQG/femto-manage/issues/65); implementacija #19, #20).
+
 Odstranitev samo zapisov tega ukaza za isti račun in datum:
 
 ```powershell
