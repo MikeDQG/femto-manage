@@ -17,4 +17,6 @@ V korenskem `.env` obvezno nastavi `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_U
 
 Več o projektu je v mapi [`docs/`](docs/).
 
+Izrecni razvojni ukaz za testne kraje in aktivnosti je opisan v [navodilih za razvojne podatke](docs/11-razvojni-testni-podatki.md).
+
 Registracija in API sta opisana v [navodilih za avtentikacijo](docs/08-avtentikacija.md).
