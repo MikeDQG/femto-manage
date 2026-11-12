@@ -25,4 +25,6 @@ Dnevna časovnica in API sta opisana v [navodilih za US-06](docs/13-dnevna-casov
 
 Kontekstni predlog aktivnosti je opisan v [navodilih za US-04](docs/14-kontekstni-predlog.md).
 
+Besedilni vnos in strežniška konfiguracija AI sta opisana v [navodilih za US-05](docs/15-besedilni-vnos.md).
+
 Registracija in API sta opisana v [navodilih za avtentikacijo](docs/08-avtentikacija.md).

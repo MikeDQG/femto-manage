@@ -20,5 +20,6 @@ Ko se sprejeta odločitev spremeni ali dopolni, obstoječega ADR ne spreminjamo.
 | 008 | [Docker in Docker Compose](008-ADR-docker-compose.md) |
 | 009 | [Struktura repozitorija za aplikacijske komponente](009-ADR-struktura-repozitorija.md) |
 | 010 | [Supabase kot zunanja podatkovna baza](010-ADR-zunanja-baza-supabase.md) |
+| 011 | [Besedilni osnutki aktivnosti z OpenAI](011-ADR-besedilni-osnutki-openai.md), dopolnjuje 006 |
 
 Odločitev 006 obravnava osnutke dnevnih besedilnih povzetkov. Obstoječe specifikacije besedilnega vnosa aktivnosti opisujejo drugo uporabo AI in same po sebi ne določajo obsega te odločitve.

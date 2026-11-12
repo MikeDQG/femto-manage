@@ -38,6 +38,6 @@ public class ContextSuggestionService {
         if (leaders.size() != 1) return new Result("Kategorije so izenačene. Nadaljuj z ročnim vnosom.", null);
         return new Result("Predlog temelji na " + maximum + " potrjenih zapisih na tem kraju v isti uri začetka.",
                 new ActivityDraft(null, start, null, leaders.getFirst().getKey(), placeId, "SUGGESTION",
-                        Map.of("title", "Dopolni naziv aktivnosti.", "endAt", "Dopolni konec aktivnosti.")));
+                        Map.of("title", "Dopolni naziv aktivnosti.", "endAt", "Dopolni konec aktivnosti."), List.of()));
     }
 }
