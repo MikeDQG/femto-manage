@@ -24,6 +24,10 @@ export default function ManualActivityForm({ categories, places, recognition, dr
   }
   const save = async (confirmOverlap: boolean) => {
     if (busy) return
+    if ((draft?.placeCandidates?.length ?? 0) > 1 && !form.placeId) {
+      setFields(current => ({ ...current, placeId: 'Izberi enega od svojih krajev.' }))
+      return
+    }
     setBusy(true)
     setError('')
     setOverlaps([])
@@ -47,13 +51,14 @@ export default function ManualActivityForm({ categories, places, recognition, dr
   </label>
   return <form className="panel form" noValidate onSubmit={event => { event.preventDefault(); void save(false) }}>
     {draft && <p role="status">Osnutek aktivnosti — pred potrditvijo preglej in dopolni podatke.</p>}
+    {(draft?.placeCandidates?.length ?? 0) > 1 && <p>Možni kraji: {draft?.placeCandidates?.map(place => `${place.name} (${place.id.slice(0, 8)})`).join(', ')}. Izberi ustrezen kraj spodaj.</p>}
     {field('title', 'Naziv')}
     <div className="twocol">{field('startAt', 'Začetek', 'datetime-local')}{field('endAt', 'Konec', 'datetime-local')}</div>
     <label className="field"><span>Kategorija</span><select value={form.categoryId} onChange={event => change('categoryId', event.target.value)} aria-invalid={!!fields.categoryId}>
       <option value="">Izberi kategorijo</option>{categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
     </select>{fields.categoryId && <small role="alert">{fields.categoryId}</small>}</label>
     <label className="field"><span>Kraj (neobvezno)</span><select value={form.placeId} onChange={event => change('placeId', event.target.value)} aria-invalid={!!fields.placeId}>
-      <option value="">Brez kraja</option>{places.map(place => <option key={place.id} value={place.id}>{place.name}</option>)}
+      <option value="">Brez kraja</option>{places.map(place => <option key={place.id} value={place.id}>{place.name}{(draft?.placeCandidates?.length ?? 0) > 1 ? ` (${place.id.slice(0, 8)})` : ''}</option>)}
     </select>{fields.placeId && <small role="alert">{fields.placeId}</small>}</label>
     <PlaceRecognitionPanel recognition={recognition} onSelect={id => change('placeId', id)} />
     <label className="field"><span>Opis (neobvezno)</span><textarea value={form.description} onChange={event => change('description', event.target.value)} />
