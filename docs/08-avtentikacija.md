@@ -29,6 +29,16 @@ Enako je zaščitena tehnična tabela `flyway_schema_history`; Flyway callback `
 
 Testni profil `test` uporablja izolirano H2 bazo v načinu PostgreSQL. Produkcijska PostgreSQL migracija za RLS se izvaja samo na PostgreSQL.
 
+## Skrbniška dodelitev mentorja (#44)
+
+[#44](https://github.com/MikeDQG/femto-manage/issues/44) dodaja `GET /api/admin/accounts?email=celoten-naslov` (rezultat `found` ter račun z naslovom in vlogo) in `POST /api/admin/accounts/mentor` (`email`, `confirmed: true`). Dostop je dovoljen samo prijavljenemu skrbniku; pisanje zahteva CSRF. Naslov se normalizira kot pri registraciji, iskanje pa ni delno. Neobstoječ račun ob iskanju vrne `found: false`, pri dodelitvi 404.
+
+Potrditev spremeni samo USER v MENTOR. Ponovitev vrne `changed: false`, ne ustvari novega računa in ne spremeni skrbniške vloge. Zaklep računa serijsko obravnava sočasne dodelitve. Ob naslednji prijavi seja prevzame vlogo MENTOR. Odgovori vsebujejo le javne podatke računa; dodelitev sama ne ustvari dovoljenja za noben dnevnik ali povzetek. Skrbniški zaslon je ločeno opravilo #48; ta API ga ne zahteva za delovanje.
+
+Testi `MentorAssignmentTests` pokrivajo iskanje, izrecno potrditev, ponovitev, novo prijavo in pravice.
+
+Za ponovljiv HTTP preizkus uporabi `npm run test:e2e:isolated -- mentor-assignment.spec.ts` v `frontend-fm/`. Zaganjalnik potrebuje Javo, Maven wrapper in nameščen Edge; pripravi H2 ter izključno testnega skrbnika v testnem razredu `BrowserTestApplication`. Frontend in API tečeta na prostih vratih 5174/8081, procesi pa se po testu ustavijo. Ne bere korenske `.env`, ne spreminja razvojnih računov v Supabase in ne vključuje testnih računov v produkcijski JAR.
+
 ## Preverjanje
 
 Backend: `cd backend-fm` in `./mvnw test` (Windows: `.\mvnw.cmd test`) z Javo 21.
