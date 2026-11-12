@@ -51,6 +51,8 @@ Ta dokument dopolnjuje [wireframe](06-wireframes.md) z odločitvami iz pogovora 
 
 ## Odprte odločitve
 
+Popravki [#57](https://github.com/MikeDQG/femto-manage/issues/57) poenotijo razmake domačih kartic na 18 px, skrajšajo vidni besedili lokacijskih akcij (dostopni imeni ohranita kraj) in odstranijo vrhnjo oznako na časovnici, ciljih ter nastavitvah. Nastavitve vsebujejo en izbor teme, shranjen v napravi. Trajanja po kategorijah ostanejo na časovnici do izvedbe [#50](https://github.com/MikeDQG/femto-manage/issues/50). Preverjanje: build, lint in brskalniška testa `ui-fixes.spec.ts` ter `places.spec.ts` na telefonu in namizju; testi shranijo tudi posnetke prizadetih zaslonov.
+
 1. Kaj na domačem zaslonu pomeni »naslednja aktivnost« in kako se prikažejo prazni položaji?
 2. Ali gumb za dodajanje odpre neposredno obrazec ali najprej izbiro načina vnosa?
 3. Ali spodnja navigacija ostane vidna tudi na obrazcih in pojavnih podrobnostih?

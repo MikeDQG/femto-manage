@@ -28,7 +28,7 @@ export default function PlacesScreen({ onChanged }: { onChanged: () => void }) {
   return <section><div className="head"><h1>Lokacije</h1><button className="primary" onClick={() => setEditing('new')}>Dodaj lokacijo</button></div>
     {loading && <p role="status">Nalagam lokacije …</p>}{error && <div role="alert">{error}<button className="outline" onClick={() => void reload()}>Poskusi znova</button></div>}
     {!loading && !error && places.length === 0 && <p>Še nimaš shranjenih lokacij.</p>}
-    <div className="list">{places.map(place => <article className="panel row" key={place.id}><strong>{place.name}</strong><div className="row"><button className="outline" onClick={() => setEditing(place)}>Uredi {place.name}</button><button className="danger" onClick={() => setDeleting(place)}>Izbriši {place.name}</button></div></article>)}</div>
+    <div className="list">{places.map(place => <article className="panel row" key={place.id}><strong>{place.name}</strong><div className="row"><button className="outline" aria-label={`Uredi ${place.name}`} onClick={() => setEditing(place)}>Uredi</button><button className="danger" aria-label={`Izbriši ${place.name}`} onClick={() => setDeleting(place)}>Izbriši</button></div></article>)}</div>
     {deleting && <div className="shade"><div className="panel modal" role="dialog" aria-modal="true" aria-label="Potrditev brisanja"><h2>Izbrišem lokacijo {deleting.name}?</h2><p>Pretekle aktivnosti bodo ostale shranjene.</p><div className="row"><button className="outline" onClick={() => setDeleting(null)} disabled={busy}>Prekliči</button><button className="danger" onClick={() => void remove()} disabled={busy}>Potrdi brisanje</button></div></div></div>}
   </section>
 }

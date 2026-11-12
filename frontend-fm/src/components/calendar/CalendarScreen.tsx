@@ -69,7 +69,7 @@ export default function CalendarScreen({ date, onDateChange, onAddActivity, refr
   const blocks = journal ? position(journal.activities, dayStart, dayEnd) : []
 
   return <section className={styles.screen}>
-    <div className="head"><div><label className="eyebrow">FEMTO · TVOJ PROSTOR</label><h1>Časovnica<span>.</span></h1>
+    <div className="head"><div><h1>Časovnica<span>.</span></h1>
       <p>Potrjene aktivnosti izbranega dne.</p></div>
       <button className="primary" onClick={onAddActivity}>＋ Dodaj aktivnost</button></div>
     <label className={styles.datePicker}>Izberi dan <input type="date" value={date} onChange={event => { if (event.target.value) { setLoading(true); onDateChange(event.target.value) } }} /></label>
