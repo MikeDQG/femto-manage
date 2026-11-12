@@ -23,4 +23,6 @@ Prepoznavanje znanega kraja je opisano v [navodilih za US-03](docs/12-prepoznava
 
 Dnevna časovnica in API sta opisana v [navodilih za US-06](docs/13-dnevna-casovnica.md).
 
+Kontekstni predlog aktivnosti je opisan v [navodilih za US-04](docs/14-kontekstni-predlog.md).
+
 Registracija in API sta opisana v [navodilih za avtentikacijo](docs/08-avtentikacija.md).

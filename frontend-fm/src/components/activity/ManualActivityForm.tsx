@@ -1,13 +1,19 @@
 import { useState } from 'react'
-import { createActivity, JournalError, type ActivityInput, type CategoryOption, type Overlap, type PlaceOption } from '../../api/activities'
+import { createActivity, JournalError, type ActivityDraft, type ActivityInput, type CategoryOption, type Overlap, type PlaceOption } from '../../api/activities'
 import PlaceRecognitionPanel from '../place-recognition/PlaceRecognitionPanel'
 import type { PlaceRecognitionState } from '../place-recognition/usePlaceRecognition'
 
-type Props = { categories: CategoryOption[]; places: PlaceOption[]; recognition: PlaceRecognitionState; onSaved: () => void; onCancel: () => void }
+type Props = { categories: CategoryOption[]; places: PlaceOption[]; recognition: PlaceRecognitionState; draft?: ActivityDraft; onSaved: () => void; onCancel: () => void }
 
-export default function ManualActivityForm({ categories, places, recognition, onSaved, onCancel }: Props) {
-  const [form, setForm] = useState({ title: '', startAt: '', endAt: '', categoryId: '', placeId: '', description: '' })
-  const [fields, setFields] = useState<Record<string, string>>({})
+function localInput(instant: string | null | undefined) {
+  if (!instant) return ''
+  const date = new Date(instant)
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+}
+
+export default function ManualActivityForm({ categories, places, recognition, draft, onSaved, onCancel }: Props) {
+  const [form, setForm] = useState({ title: draft?.title ?? '', startAt: localInput(draft?.startAt), endAt: localInput(draft?.endAt), categoryId: draft?.categoryId ?? '', placeId: draft?.placeId ?? '', description: '' })
+  const [fields, setFields] = useState<Record<string, string>>(draft?.fields ?? {})
   const [overlaps, setOverlaps] = useState<Overlap[]>([])
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
@@ -21,7 +27,7 @@ export default function ManualActivityForm({ categories, places, recognition, on
     setBusy(true)
     setError('')
     setOverlaps([])
-    const input: ActivityInput = { ...form, categoryId: form.categoryId || null, placeId: form.placeId || null,
+    const input: ActivityInput = { ...form, source: draft?.source ?? 'MANUAL', categoryId: form.categoryId || null, placeId: form.placeId || null,
       startAt: form.startAt ? new Date(form.startAt).toISOString() : null,
       endAt: form.endAt ? new Date(form.endAt).toISOString() : null, confirmOverlap }
     try {
@@ -40,6 +46,7 @@ export default function ManualActivityForm({ categories, places, recognition, on
     {fields[key] && <small role="alert">{fields[key]}</small>}
   </label>
   return <form className="panel form" noValidate onSubmit={event => { event.preventDefault(); void save(false) }}>
+    {draft && <p role="status">Osnutek aktivnosti — pred potrditvijo preglej in dopolni podatke.</p>}
     {field('title', 'Naziv')}
     <div className="twocol">{field('startAt', 'Začetek', 'datetime-local')}{field('endAt', 'Konec', 'datetime-local')}</div>
     <label className="field"><span>Kategorija</span><select value={form.categoryId} onChange={event => change('categoryId', event.target.value)} aria-invalid={!!fields.categoryId}>
@@ -56,6 +63,6 @@ export default function ManualActivityForm({ categories, places, recognition, on
       {overlaps.map((overlap, index) => <p key={index}>{overlap.title}: {new Date(overlap.startAt).toLocaleString('sl-SI')} – {new Date(overlap.endAt).toLocaleString('sl-SI')}</p>)}
       <p>Popravi čas ali izrecno potrdi prekrivanje.</p><button type="button" className="outline" onClick={() => void save(true)} disabled={busy}>Nadaljuj kljub prekrivanju</button>
     </div>}
-    <div className="row"><button type="button" className="outline" onClick={onCancel}>Prekliči</button><button className="primary" disabled={busy}>Potrdi aktivnost</button></div>
+    <div className="row"><button type="button" className="outline" onClick={onCancel} disabled={busy}>{draft ? 'Zavrni predlog' : 'Prekliči'}</button><button className="primary" disabled={busy}>Potrdi aktivnost</button></div>
   </form>
 }
