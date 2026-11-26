@@ -12,6 +12,8 @@ permissions:
 env:
   JAVA_VERSION: '21'
   NODE_VERSION: '22'
+  TZ: Europe/Ljubljana
+  JAVA_TOOL_OPTIONS: -Duser.timezone=Europe/Ljubljana
 
 jobs:
   lint:
