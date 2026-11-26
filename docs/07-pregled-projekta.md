@@ -61,7 +61,7 @@ docker compose up --build
 
 V `.env` se lahko uporabijo samo lokalne oziroma razvojne skrivnosti. Datoteka `.env.example` vsebuje imena potrebnih nastavitev, ne pa dejanskih poverilnic.
 
-Docker Compose v trenutnem pregledu ni bilo mogoče dejansko zagnati, ker Docker CLI v uporabljenem okolju ni bil dovoljen. Zato v tem pregledu ni potrjeno, da sta sliki uspešno zgrajeni ali da je aplikacija dosegljiva na `http://localhost:5173`. To ostaja odprta točka za lokalno preverjanje v Docker Desktopu.
+Lokalni zagon je bil preverjen z Docker Desktopom. Obe sliki sta se uspešno zgradili, frontend in backend kontejner sta ostala v stanju `Up`, povezava s Supabase PostgreSQL je delovala, Flyway pa je uspešno izvedel 9 migracij do različice v9. Frontend je vrnil HTTP 200 na `http://localhost:5173`, backendov endpoint `GET /api/auth/csrf` pa HTTP 200 na `http://localhost:8080`. Za preverjanje je bil uporabljen Session pooler in ločena lokalna `.env` konfiguracija; skrivnosti niso del repozitorija.
 
 ## Pregled implementiranih funkcionalnosti MVP
 
