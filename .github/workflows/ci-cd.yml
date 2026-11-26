@@ -183,3 +183,46 @@ jobs:
             frontend-fm/playwright-report
             frontend-fm/test-results
           if-no-files-found: warn
+
+  deploy:
+    name: deploy
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [lint, build, test]
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: application-build
+          path: build-artifacts
+
+      - name: Verify downloaded build artifacts
+        run: |
+          test -d build-artifacts/frontend/dist
+          test -f build-artifacts/frontend/Dockerfile
+          test -f build-artifacts/frontend/nginx.conf.template
+          test -d build-artifacts/backend
+          test -f build-artifacts/backend/Dockerfile
+          test -n "$(find build-artifacts/backend -maxdepth 1 -name 'backend-fm-*.jar' -print -quit)"
+
+      - name: Deploy backend to Render
+        env:
+          RENDER_BACKEND_DEPLOY_HOOK: ${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}
+          BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/femto-manage-backend:${{ github.sha }}
+        run: |
+          test -n "$RENDER_BACKEND_DEPLOY_HOOK"
+          curl --fail --silent --show-error --get \
+            --data-urlencode "imgURL=$BACKEND_IMAGE" \
+            "$RENDER_BACKEND_DEPLOY_HOOK"
+
+      - name: Deploy frontend to Render
+        env:
+          RENDER_FRONTEND_DEPLOY_HOOK: ${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK }}
+          FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/femto-manage-frontend:${{ github.sha }}
+        run: |
+          test -n "$RENDER_FRONTEND_DEPLOY_HOOK"
+          curl --fail --silent --show-error --get \
+            --data-urlencode "imgURL=$FRONTEND_IMAGE" \
+            "$RENDER_FRONTEND_DEPLOY_HOOK"
