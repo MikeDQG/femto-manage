@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+<module name="Checker">
+    <property name="charset" value="UTF-8"/>
+    <module name="FileTabCharacter"/>
+
+    <module name="TreeWalker">
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="System\\.out\\.(print|println)"/>
+            <property name="message" value="Ne uporabljaj neposrednega izpisa v standardni izhod."/>
+        </module>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="printStackTrace\\(\\)"/>
+            <property name="message" value="Ne uporabljaj printStackTrace(); uporabi ustrezno beleženje."/>
+        </module>
+    </module>
+</module>
